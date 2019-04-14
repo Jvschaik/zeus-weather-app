@@ -5,6 +5,7 @@ import SwiftyJSON
 
 
 class WeatherViewController: UIViewController, CLLocationManagerDelegate, ChangeCityDelegate {
+     @IBOutlet var myImageView: UIImageView!
     
     //Constants
     let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
@@ -55,8 +56,10 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
 
     //Past result from serves with JSON
     func updateWeatherData(json : JSON) {
-        
+      
+            
         if let tempResult = json["main"]["temp"].double {
+            
         
         weatherDataModel.temperature = Int(tempResult - 273.15 ) //json result = Kelvin. From Kelving to Celsius is minus 273.15
         
@@ -75,9 +78,15 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
     
     //Update UI
     func updateUIWithWeatherData() {
+          if UserDefaults.standard.bool(forKey: "HIDE_SHOW_WEATHER") {
         cityLabel.text = weatherDataModel.city
         temperatureLabel.text = "\(weatherDataModel.temperature)°"
         weatherIcon.image = UIImage(named: weatherDataModel.weatherIconName)
+        }
+          else {
+            cityLabel.text = "Hidden weather"
+            temperatureLabel.text = " "
+        }
         
     }
     
@@ -122,9 +131,5 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
             destinationVC.delegate = self
         }
     }
-    
-    
-    
-    
     
 }
