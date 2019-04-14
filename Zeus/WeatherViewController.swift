@@ -56,11 +56,9 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
 
     //Past result from serves with JSON
     func updateWeatherData(json : JSON) {
-      
             
         if let tempResult = json["main"]["temp"].double {
             
-        
         weatherDataModel.temperature = Int(tempResult - 273.15 ) //json result = Kelvin. From Kelving to Celsius is minus 273.15
         
         weatherDataModel.city = json["name"].stringValue
@@ -125,6 +123,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
         getWeatherData(url: WEATHER_URL, parameters: params)
     }
 
+    //Android you use Intents to pass data between views, in Swift you use seque
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "changeCityName" {
             let destinationVC = segue.destination as! ChangeCityViewController
